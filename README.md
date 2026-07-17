@@ -1,1 +1,0 @@
-# davidgehlert.github.io

